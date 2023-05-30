@@ -1,0 +1,7 @@
+version: "3"
+services:
+    app:
+        image: laravel-nginx-test:latest
+        env_file: .env
+        ports:
+            - "8085:80"
