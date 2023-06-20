@@ -1,7 +1,81 @@
-version: "3"
+# prod
+
+# version: "3.4"
+
+# services:
+#     app:
+#         image: laravel-nginx-test:latest
+#         container_name: "ads-app"
+#         ports:
+#             - "${APP_PORT}:80"
+#         networks:
+#             - app-network
+#         environment:
+#             - POSTGRES_USER=postgres
+#             - POSTGRES_PASSWORD=postgres
+#     ##=======================
+#     ## POSTGRES SERVICE
+#     ##======================
+#     postgres:
+#         build:
+#             dockerfile: postgres.Dockerfile
+#             context: .
+#         container_name: postgres-service
+#         ports:
+#             - ${DB_EXPOSE_PORT}:5432
+#         networks:
+#             - app-network
+#         environment:
+#             - POSTGRES_USER=postgres
+#             - POSTGRES_PASSWORD=postgres
+#         volumes:
+#             - postgres_data:/var/lib/postgresql/data
+
+# networks:
+#     app-network:
+#         driver: "bridge"
+# volumes:
+#     postgres_data:
+
+# dev
+
+version: "3.4"
+
 services:
     app:
-        image: laravel-nginx-test:latest
-        env_file: .env
+        build:
+            dockerfile: Dockerfile
+            context: .
+        container_name: "ads-app"
         ports:
-            - "8085:80"
+            - "${APP_PORT}:80"
+        networks:
+            - app-network
+        volumes:
+            - ./:/var/www/
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    ##=======================
+    ## POSTGRES SERVICE
+    ##======================
+    postgres:
+        build:
+            dockerfile: postgres.Dockerfile
+            context: .
+        container_name: postgres-service
+        ports:
+            - ${DB_EXPOSE_PORT}:5432
+        networks:
+            - app-network
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+networks:
+    app-network:
+        driver: "bridge"
+volumes:
+    postgres_data:

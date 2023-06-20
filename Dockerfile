@@ -13,16 +13,17 @@ RUN ["sh",  "./nodesource_setup.sh"]
 # Install environment dependencies
 RUN apt-get update \
 	# gd
-	&& apt-get install -y build-essential  openssl nginx libfreetype6-dev libjpeg-dev libpng-dev libwebp-dev zlib1g-dev libzip-dev gcc g++ make vim unzip curl git jpegoptim optipng pngquant gifsicle locales libonig-dev nodejs  \
+	&& apt-get install -y libpq-dev build-essential  openssl nginx libfreetype6-dev libjpeg-dev libpng-dev libwebp-dev zlib1g-dev libzip-dev gcc g++ make vim unzip curl git jpegoptim optipng pngquant gifsicle locales libonig-dev nodejs  \
 	&& docker-php-ext-configure gd  \
 	&& docker-php-ext-install gd \
 	# gmp
 	&& apt-get install -y --no-install-recommends libgmp-dev \
 	&& docker-php-ext-install gmp \
-	# pdo_mysql
-	&& docker-php-ext-install pdo_mysql mbstring \
 	# pdo
 	&& docker-php-ext-install pdo \
+    # pdo_pgsql
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql  \
+	&& docker-php-ext-install pgsql pdo_pgsql mbstring \
 	# opcache
 	&& docker-php-ext-enable opcache \
 	# exif
