@@ -31,18 +31,10 @@ class AdvertisementServiceImpl implements AdvertisementService
                 $constraint->upsize();
             })->encode('png', 60);
 
-            // dd($image->stream());
-
             Storage::put($saveName, $image->stream(), 'public');
+            $payload["source_url"] = $saveName;
 
-            return response()->json([
-                'data' => [
-                    'error' => false,
-                    'file_name' => $saveName,
-                ],
-            ]);
-
-            // $this->advertisementRepository->Insert($payload);
+            $this->advertisementRepository->Insert($payload);
         } catch (\Throwable $th) {
             throw $th;
         }

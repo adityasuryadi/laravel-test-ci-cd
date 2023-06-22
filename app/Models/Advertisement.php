@@ -15,4 +15,9 @@ class Advertisement extends Model
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
+
+    public function advertisementDisplay()
+    {
+        return $this->hasMany(AdvertisementDisplay::class);
+    }
 }
