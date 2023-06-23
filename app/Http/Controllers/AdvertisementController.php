@@ -22,7 +22,13 @@ class AdvertisementController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        $this->validate($request, [
+            'name'=>'required',
+            'duration'=>'required',
+            'image'=>'required|image',
+            'merchants'=>'required|array|min:1'
+        ]);
+
         $this->advertisementService->createAdvertisement($request);
     }
 }
