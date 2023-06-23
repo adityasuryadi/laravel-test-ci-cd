@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Advertisement;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,6 +32,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('advertisement/create', [AdvertisementController::class,'create'])->name('advertisement.create');
+Route::get('advertisement', [AdvertisementController::class,'index'])->name('advertisement.index');
 Route::post('advertisement', [AdvertisementController::class,'store'])->name('advertisement.store');
 
 Route::middleware('auth')->group(function () {

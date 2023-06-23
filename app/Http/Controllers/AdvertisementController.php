@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertisement;
 use App\Services\AdvertisementService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,6 +14,12 @@ class AdvertisementController extends Controller
     public function __construct(AdvertisementService $advertisementService)
     {
         $this->advertisementService = $advertisementService;
+    }
+
+    public function index()
+    {
+        $advertisements = Advertisement::with('advertisementDisplay')->get();
+        return inertia('Advertisement/Index', ['advertisements'=>$advertisements]);
     }
 
     public function create()

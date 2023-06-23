@@ -9,7 +9,7 @@ import InputImage from "@/Components/InputImage";
 import "../../../css/custom.css";
 
 //import inertia adapter
-import { router } from "@inertiajs/react";
+import { router, Link } from "@inertiajs/react";
 
 export default function CreatePost({ errors }) {
     //define state
@@ -25,7 +25,6 @@ export default function CreatePost({ errors }) {
     const tableCustomStyles = {
         headRow: {
             style: {
-                color: "#223336",
                 backgroundColor: "#e7eef0",
             },
         },
@@ -54,6 +53,7 @@ export default function CreatePost({ errors }) {
                 (result) => {
                     setIsLoaded(true);
                     setMerchants(result.data);
+                    setPending(false);
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -111,10 +111,86 @@ export default function CreatePost({ errors }) {
         });
     };
 
+    const [pending, setPending] = React.useState(true);
+    // const [rows, setRows] = React.useState([]);
+    // React.useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         setRows(data);
+    //         setPending(false);
+    //     }, 2000);
+    //     return () => clearTimeout(timeout);
+    // }, []);
+
     return (
         <Layout>
             {/* <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"> */}
+
+            <nav className="flex my-5" aria-label="Breadcrumb">
+                <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                    <li className="inline-flex items-center">
+                        <a
+                            href="#"
+                            className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
+                        >
+                            <svg
+                                aria-hidden="true"
+                                className="w-4 h-4 mr-2"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div className="flex items-center">
+                            <svg
+                                aria-hidden="true"
+                                className="w-6 h-6 text-gray-400"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clipRule="evenodd"
+                                ></path>
+                            </svg>
+                            <Link
+                                href="/advertisement"
+                                className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+                            >
+                                Advertisement
+                            </Link>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div className="flex items-center">
+                            <svg
+                                aria-hidden="true"
+                                className="w-6 h-6 text-gray-400"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clipRule="evenodd"
+                                ></path>
+                            </svg>
+                            <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
+                                Create
+                            </span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+
             <form className="space-y-6" action="#" method="POST">
                 <div className="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
                     <div className="w-full px-2 md:w-2/3">
@@ -139,7 +215,7 @@ export default function CreatePost({ errors }) {
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                         {errors.name && (
-                            <span class="text-sm text-red-600">
+                            <span className="text-sm text-red-600">
                                 {" "}
                                 {errors.name}{" "}
                             </span>
@@ -174,7 +250,7 @@ export default function CreatePost({ errors }) {
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                         {errors.duration && (
-                            <span class="text-sm text-red-600">
+                            <span className="text-sm text-red-600">
                                 {" "}
                                 {errors.duration}{" "}
                             </span>
@@ -191,7 +267,7 @@ export default function CreatePost({ errors }) {
                         </div>
                         <InputImage setImage={changeImage}></InputImage>
                         {errors.image && (
-                            <span class="text-sm text-red-600">
+                            <span className="text-sm text-red-600">
                                 {" "}
                                 {errors.image}{" "}
                             </span>
@@ -211,8 +287,9 @@ export default function CreatePost({ errors }) {
                             selectableRows
                             persistTableHead
                             customStyles={tableCustomStyles}
+                            progressPending={pending}
                         />
-                        <span class="text-sm text-red-600">
+                        <span className="text-sm text-red-600">
                             {errors.merchants}
                         </span>
                     </div>
