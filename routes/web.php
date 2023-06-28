@@ -34,6 +34,8 @@ Route::get('/dashboard', function () {
 Route::get('advertisement/create', [AdvertisementController::class,'create'])->name('advertisement.create');
 Route::get('advertisement', [AdvertisementController::class,'index'])->name('advertisement.index');
 Route::post('advertisement', [AdvertisementController::class,'store'])->name('advertisement.store');
+Route::get('advertisement/{id}/edit', [AdvertisementController::class,'edit'])->name('advertisement.edit');
+Route::put('advertisement/{id}', [AdvertisementController::class,'update'])->name('advertisement.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

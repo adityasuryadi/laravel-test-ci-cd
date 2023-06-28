@@ -1,5 +1,5 @@
 //import hook useState from react
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import DataTable from "react-data-table-component";
 
 //import layout
@@ -9,19 +9,33 @@ import InputImage from "@/Components/InputImage";
 import "../../../css/custom.css";
 
 //import inertia adapter
-import { router, Link } from "@inertiajs/react";
+import { router, Link, useForm } from "@inertiajs/react";
+import { transform } from "lodash";
 
-export default function CreatePost({ errors }) {
+export default function EditAdvertisement({ advertisement, errors }) {
+    const { data, setData, put, processing, transform } = useForm({
+        name: advertisement.name,
+        duration: advertisement.duration,
+        source_url: "/storage/" + advertisement.source_url,
+        merchants: [],
+        // merchant_displays:
+    });
+
+    const rowSelectCritera = (row) =>
+        advertisement.merchants.includes(parseInt(row.merchant_id));
+
     //define state
-    const [selectedRows, setSelectedRows] = React.useState([]);
-    const [adsName, setAdsName] = useState("");
-    const [adsDuration, setAdsDuration] = useState("");
+    const [selectedRows, setSelectedRows] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [merchants, setMerchants] = useState([]);
-    const [selectedMerchantId, setSelectedmerchantId] = React.useState([]);
+    // const [selectedMerchantId, setSelectedmerchantId] = React.useState();
     const [image, setImage] = useState(undefined);
 
+    // transform((data) => ({
+    //     ...data,
+    //     merchants: selectedRows,
+    // }));
     const tableCustomStyles = {
         headRow: {
             style: {
@@ -34,16 +48,36 @@ export default function CreatePost({ errors }) {
     };
 
     const changeImage = (image) => {
-        setImage(image);
+        setData("source_url", image);
+    };
+
+    const changeMerchants = (merchants) => {
+        setData("merchants", merchants);
     };
 
     const postAds = async (e) => {
         console.warn(selectedRows);
     };
 
-    const handleRowSelected = React.useCallback((state) => {
-        setSelectedRows(state.selectedRows);
-        console.warn(state);
+    const handleRowSelected = useCallback(({ selectedRows }) => {
+        // let x = selectedRows;
+        // setSelectedRows((x) => [...x, selectedRows]);
+        // setSelectedRows();
+        // console.warn(selectedRows);
+        // selectedRows = selectedRows;
+        // setData("merchants", "test");
+        setSelectedRows((rows) => {
+            selectedRows;
+        });
+        data.merchants = selectedRows;
+        // (data) => {
+        //     setData((data) => ({ ...data, merchants: selectedRows }));
+        // };
+
+        // (selectedRows) =>
+        // setData((selectedRows) => {
+        //     selectedRows;
+        // });
     }, []);
 
     useEffect(() => {
@@ -63,6 +97,12 @@ export default function CreatePost({ errors }) {
     }, []);
 
     const columns = [
+        {
+            name: "Merchant Id",
+            id: "merchant_id",
+            selector: (row) => row.merchant_id,
+            omit: true,
+        },
         {
             name: "Nama Merchant",
             id: "merchant_name",
@@ -99,30 +139,20 @@ export default function CreatePost({ errors }) {
     //function "storePost"
     const storePost = async (e) => {
         e.preventDefault();
-
-        router.post("/advertisement", {
-            name: adsName,
-            duration: adsDuration,
-            merchants: selectedRows,
-            image: image,
-        });
+        put(
+            "/advertisement/" + advertisement.id
+            // , {
+            //     onBefore: () => {
+            //         setData("merchants", selectedRows);
+            //         // console.warn("wkwkw");
+            //     },
+            // }
+        );
     };
 
     const [pending, setPending] = React.useState(true);
-    // const [rows, setRows] = React.useState([]);
-    // React.useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data);
-    //         setPending(false);
-    //     }, 2000);
-    //     return () => clearTimeout(timeout);
-    // }, []);
-
     return (
         <Layout>
-            {/* <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"> */}
-
             <nav className="flex my-5" aria-label="Breadcrumb">
                 <ol className="inline-flex items-center space-x-1 md:space-x-3">
                     <li className="inline-flex items-center">
@@ -206,8 +236,8 @@ export default function CreatePost({ errors }) {
                             name="adsName"
                             type="adsName"
                             autoComplete="adsName"
-                            value={adsName}
-                            onChange={(e) => setAdsName(e.target.value)}
+                            value={data.name}
+                            onChange={(e) => setData("name", e.target.value)}
                             required
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
@@ -241,8 +271,10 @@ export default function CreatePost({ errors }) {
                             name="adsDuration"
                             type="adsDuration"
                             autoComplete="adsDuration"
-                            value={adsDuration}
-                            onChange={(e) => setAdsDuration(e.target.value)}
+                            value={data.duration}
+                            onChange={(e) =>
+                                setData("duration", e.target.value)
+                            }
                             required
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
@@ -264,7 +296,7 @@ export default function CreatePost({ errors }) {
                         </div>
                         <InputImage
                             setImage={changeImage}
-                            Image=""
+                            image={data.source_url}
                         ></InputImage>
                         {errors.image && (
                             <span className="text-sm text-red-600">
@@ -285,6 +317,7 @@ export default function CreatePost({ errors }) {
                             subHeaderComponent={subHeaderComponentMemo}
                             onSelectedRowsChange={handleRowSelected}
                             selectableRows
+                            selectableRowSelected={rowSelectCritera}
                             persistTableHead
                             customStyles={tableCustomStyles}
                             progressPending={pending}
@@ -305,8 +338,6 @@ export default function CreatePost({ errors }) {
                     </div>
                 </div>
             </form>
-            {/* </div>
-            </div> */}
         </Layout>
     );
 }

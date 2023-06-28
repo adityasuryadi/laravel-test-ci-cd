@@ -17,6 +17,21 @@ export default function Index({ advertisements }) {
             id: "ads_duration",
             selector: (row) => row.duration,
         },
+        {
+            cell: () => (
+                <div>
+                    <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        View
+                    </Link>
+                    <Link className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Edit
+                    </Link>
+                </div>
+            ),
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
+        },
     ];
     const data = advertisements;
     return (

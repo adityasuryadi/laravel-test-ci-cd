@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function InputImage({ setImage }) {
-    const [previewImage, setPreviewImage] = useState(undefined);
+export default function InputImage({ setImage, image }) {
+    const [previewImage, setPreviewImage] = useState(image);
     const handleChangeImage = async (e) => {
         setImage(event.target.files[0]);
         setPreviewImage(URL.createObjectURL(event.target.files[0]));

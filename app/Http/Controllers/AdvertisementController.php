@@ -38,4 +38,19 @@ class AdvertisementController extends Controller
 
         $this->advertisementService->createAdvertisement($request);
     }
+
+    public function edit($id)
+    {
+        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        return Inertia('Advertisement/Edit', ['advertisement'=>$advertisement]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+
+        dd($request->all());
+    }
+
+
 }
