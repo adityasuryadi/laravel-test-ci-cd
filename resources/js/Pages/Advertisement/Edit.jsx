@@ -18,7 +18,6 @@ export default function EditAdvertisement({ advertisement, errors }) {
         source_url: "/storage/" + advertisement.source_url,
         merchants: [],
         image: "undefined",
-        // merchant_displays:
     });
 
     const checkedMerchants = [];
@@ -206,7 +205,7 @@ export default function EditAdvertisement({ advertisement, errors }) {
                                 ></path>
                             </svg>
                             <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
-                                Create
+                                Edit {advertisement.name}
                             </span>
                         </div>
                     </li>

@@ -31,16 +31,15 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('advertisement/create', [AdvertisementController::class,'create'])->name('advertisement.create');
-Route::get('advertisement', [AdvertisementController::class,'index'])->name('advertisement.index');
-Route::post('advertisement', [AdvertisementController::class,'store'])->name('advertisement.store');
-Route::get('advertisement/{id}/edit', [AdvertisementController::class,'edit'])->name('advertisement.edit');
-Route::put('advertisement/{id}', [AdvertisementController::class,'update'])->name('advertisement.update');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('advertisement/create', [AdvertisementController::class,'create'])->name('advertisement.create');
+    Route::get('advertisement', [AdvertisementController::class,'index'])->name('advertisement.index');
+    Route::post('advertisement', [AdvertisementController::class,'store'])->name('advertisement.store');
+    Route::get('advertisement/{id}/edit', [AdvertisementController::class,'edit'])->name('advertisement.edit');
+    Route::put('advertisement/{id}', [AdvertisementController::class,'update'])->name('advertisement.update');
 });
 
 require __DIR__.'/auth.php';
