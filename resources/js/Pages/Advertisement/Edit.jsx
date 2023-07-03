@@ -10,32 +10,37 @@ import "../../../css/custom.css";
 
 //import inertia adapter
 import { router, Link, useForm } from "@inertiajs/react";
-import { transform } from "lodash";
 
 export default function EditAdvertisement({ advertisement, errors }) {
-    const { data, setData, put, processing, transform } = useForm({
+    const { data, setData, put, post, processing, transform } = useForm({
         name: advertisement.name,
         duration: advertisement.duration,
         source_url: "/storage/" + advertisement.source_url,
         merchants: [],
+        image: "undefined",
         // merchant_displays:
     });
 
+    const checkedMerchants = [];
+
+    transform((data) => ({
+        ...data,
+    }));
+
+    console.warn("checked", data.merchants);
+
     const rowSelectCritera = (row) =>
-        advertisement.merchants.includes(parseInt(row.merchant_id));
+        data.merchants.length == 0
+            ? advertisement.merchants.includes(parseInt(row.merchant_id))
+            : data.merchants.includes(row.merchant_id);
 
     //define state
     const [selectedRows, setSelectedRows] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [merchants, setMerchants] = useState([]);
-    // const [selectedMerchantId, setSelectedmerchantId] = React.useState();
     const [image, setImage] = useState(undefined);
 
-    // transform((data) => ({
-    //     ...data,
-    //     merchants: selectedRows,
-    // }));
     const tableCustomStyles = {
         headRow: {
             style: {
@@ -47,8 +52,10 @@ export default function EditAdvertisement({ advertisement, errors }) {
         },
     };
 
-    const changeImage = (image) => {
-        setData("source_url", image);
+    const changeImage = (file) => {
+        // setImage(file);
+        setData("image", file);
+        console.warn("data", data);
     };
 
     const changeMerchants = (merchants) => {
@@ -60,24 +67,14 @@ export default function EditAdvertisement({ advertisement, errors }) {
     };
 
     const handleRowSelected = useCallback(({ selectedRows }) => {
-        // let x = selectedRows;
-        // setSelectedRows((x) => [...x, selectedRows]);
-        // setSelectedRows();
-        // console.warn(selectedRows);
-        // selectedRows = selectedRows;
-        // setData("merchants", "test");
+        let merchants = [];
         setSelectedRows((rows) => {
             selectedRows;
         });
-        data.merchants = selectedRows;
-        // (data) => {
-        //     setData((data) => ({ ...data, merchants: selectedRows }));
-        // };
-
-        // (selectedRows) =>
-        // setData((selectedRows) => {
-        //     selectedRows;
-        // });
+        selectedRows.forEach((element) => {
+            merchants.push(element.merchant_id);
+        });
+        data.merchants = merchants;
     }, []);
 
     useEffect(() => {
@@ -139,15 +136,13 @@ export default function EditAdvertisement({ advertisement, errors }) {
     //function "storePost"
     const storePost = async (e) => {
         e.preventDefault();
-        put(
-            "/advertisement/" + advertisement.id
-            // , {
-            //     onBefore: () => {
-            //         setData("merchants", selectedRows);
-            //         // console.warn("wkwkw");
-            //     },
-            // }
-        );
+        router.post(`/advertisement/${advertisement.id}`, {
+            _method: "put",
+            name: data.name,
+            duration: data.duration,
+            image: data.image,
+            merchants: data.merchants,
+        });
     };
 
     const [pending, setPending] = React.useState(true);
@@ -333,7 +328,7 @@ export default function EditAdvertisement({ advertisement, errors }) {
                             onClick={storePost}
                             className="flex w-full mt-2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            Create
+                            Update
                         </button>
                     </div>
                 </div>

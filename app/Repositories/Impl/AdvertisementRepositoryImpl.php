@@ -15,4 +15,21 @@ class AdvertisementRepositoryImpl implements AdvertisementRepository
             $advertisement->advertisementDisplay()->createMany($payload["merchants"]);
         });
     }
+
+    public function Update(string $id, array $payload)
+    {
+        $advertisement = Advertisement::with(['advertisementDisplay'])->find($id);
+        $advertisement->name = $payload['name'];
+        $advertisement->duration = $payload['duration'];
+        $advertisement->source_url = $payload['source_url'];
+        $advertisement->save();
+
+        $advertisement->advertisementDisplay()->createMany($payload["merchants"]);
+    }
+
+    public function deleteAdvertisementDisplay(string $advertisementId)
+    {
+        $advertisement = Advertisement::with(['advertisementDisplay'])->find($advertisementId);
+        $advertisement->advertisementDisplay()->delete();
+    }
 }

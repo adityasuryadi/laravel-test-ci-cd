@@ -47,9 +47,18 @@ class AdvertisementController extends Controller
 
     public function update($id, Request $request)
     {
-        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        $validationRules = [
+            'name'=>'required',
+            'duration'=>'required|numeric',
+            'merchants'=>'required|array|min:1'
+        ];
+        if($request->file('image')) {
+            $validationRules['image'] = 'required|image';
+        }
+        $this->validate($request, $validationRules);
+        $this->advertisementService->updateAdvertisement($id, $request);
 
-        dd($request->all());
+        return redirect('advertisement');
     }
 
 

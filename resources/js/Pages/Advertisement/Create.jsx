@@ -109,20 +109,8 @@ export default function CreatePost({ errors }) {
     };
 
     const [pending, setPending] = React.useState(true);
-    // const [rows, setRows] = React.useState([]);
-    // React.useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         setRows(data);
-    //         setPending(false);
-    //     }, 2000);
-    //     return () => clearTimeout(timeout);
-    // }, []);
-
     return (
         <Layout>
-            {/* <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"> */}
-
             <nav className="flex my-5" aria-label="Breadcrumb">
                 <ol className="inline-flex items-center space-x-1 md:space-x-3">
                     <li className="inline-flex items-center">
@@ -305,8 +293,6 @@ export default function CreatePost({ errors }) {
                     </div>
                 </div>
             </form>
-            {/* </div>
-            </div> */}
         </Layout>
     );
 }
