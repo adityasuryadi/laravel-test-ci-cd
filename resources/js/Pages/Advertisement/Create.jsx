@@ -41,9 +41,12 @@ export default function CreatePost({ errors }) {
         console.warn(selectedRows);
     };
 
-    const handleRowSelected = React.useCallback((state) => {
-        setSelectedRows(state.selectedRows);
-        console.warn(state);
+    const handleRowSelected = React.useCallback(({ selectedRows }) => {
+        let merchants = [];
+        selectedRows.forEach((element) => {
+            merchants.push(element.merchant_id);
+        });
+        setSelectedRows(merchants);
     }, []);
 
     useEffect(() => {
@@ -245,7 +248,11 @@ export default function CreatePost({ errors }) {
                         <div>
                             <label
                                 htmlFor="image"
-                                className="block text-sm font-medium leading-6 text-gray-900"
+                                className={`block text-sm font-medium leading-6 text-gray-900 ${
+                                    errors.image != null
+                                        ? "text-red-600"
+                                        : "text-gray-900"
+                                }`}
                             >
                                 Gambar Iklan
                             </label>
@@ -261,7 +268,18 @@ export default function CreatePost({ errors }) {
                             </span>
                         )}
                     </div>
+
                     <div className="w-full px-2">
+                        <label
+                            htmlFor="merchants"
+                            className={`block text-sm mt-4 font-medium leading-6  ${
+                                errors.merchants != null
+                                    ? "text-red-600"
+                                    : "text-gray-900"
+                            }`}
+                        >
+                            Display Iklan
+                        </label>
                         <DataTable
                             fixedHeader
                             fixedHeaderScrollHeight="300px"

@@ -22,6 +22,11 @@ class Advertisement extends Model
         return $this->hasMany(AdvertisementDisplay::class);
     }
 
+    public function advertisementDisplayDetail()
+    {
+        return $this->hasMany(AdvertisementDisplayDetail::class);
+    }
+
     /**
     * Determine  merrchants display
     *

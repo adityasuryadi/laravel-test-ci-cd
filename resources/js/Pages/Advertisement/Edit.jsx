@@ -20,12 +20,6 @@ export default function EditAdvertisement({ advertisement, errors }) {
         image: "undefined",
     });
 
-    const checkedMerchants = [];
-
-    transform((data) => ({
-        ...data,
-    }));
-
     console.warn("checked", data.merchants);
 
     const rowSelectCritera = (row) =>
@@ -283,7 +277,11 @@ export default function EditAdvertisement({ advertisement, errors }) {
                         <div>
                             <label
                                 htmlFor="image"
-                                className="block text-sm font-medium leading-6 text-gray-900"
+                                className={`block text-sm font-medium leading-6 text-gray-900 ${
+                                    errors.image != null
+                                        ? "text-red-600"
+                                        : "text-gray-900"
+                                }`}
                             >
                                 Gambar Iklan
                             </label>
@@ -300,6 +298,16 @@ export default function EditAdvertisement({ advertisement, errors }) {
                         )}
                     </div>
                     <div className="w-full px-2">
+                        <label
+                            htmlFor="merchants"
+                            className={`block text-sm mt-4 font-medium leading-6  ${
+                                errors.merchants != null
+                                    ? "text-red-600"
+                                    : "text-gray-900"
+                            }`}
+                        >
+                            Display Iklan
+                        </label>
                         <DataTable
                             fixedHeader
                             fixedHeaderScrollHeight="300px"

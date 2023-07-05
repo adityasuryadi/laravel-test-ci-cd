@@ -6,6 +6,7 @@ use App\Services\AdvertisementService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Advertisement;
 
 class AdvertisementServiceTest extends TestCase
 {
@@ -20,5 +21,11 @@ class AdvertisementServiceTest extends TestCase
     public function testAdvertisementNotNull()
     {
         self::assertNotNull($this->advertisementService);
+    }
+
+    public function testGetAds()
+    {
+        $ads= Advertisement::where('merchants->merchant_id', 30)->get();
+        dd($ads);
     }
 }
