@@ -71,6 +71,12 @@ class AdvertisementController extends Controller
         return redirect('advertisement');
     }
 
+    public function view($id)
+    {
+        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        return Inertia('Advertisement/View', ['advertisement'=>$advertisement]);
+    }
+
     public function getAds(Request $request): JsonResponse
     {
 

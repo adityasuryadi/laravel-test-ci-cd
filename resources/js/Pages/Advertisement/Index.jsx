@@ -20,7 +20,10 @@ export default function Index({ advertisements }) {
         {
             cell: (row) => (
                 <div className="inline-flex">
-                    <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <Link
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        href={`advertisement/${row.id}`}
+                    >
                         View
                     </Link>
                     &nbsp;

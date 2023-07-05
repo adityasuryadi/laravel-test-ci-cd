@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('advertisement', [AdvertisementController::class,'store'])->name('advertisement.store');
     Route::get('advertisement/{id}/edit', [AdvertisementController::class,'edit'])->name('advertisement.edit');
     Route::put('advertisement/{id}', [AdvertisementController::class,'update'])->name('advertisement.update');
+    Route::get('advertisement/{id}', [AdvertisementController::class,'view'])->name('advertisement.view');
 });
 
 require __DIR__.'/auth.php';
