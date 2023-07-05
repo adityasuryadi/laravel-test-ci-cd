@@ -22,6 +22,7 @@ class AdvertisementRepositoryImpl implements AdvertisementRepository
         $advertisement->name = $payload['name'];
         $advertisement->duration = $payload['duration'];
         $advertisement->source_url = $payload['source_url'];
+        $advertisement->is_active = $payload['is_active'];
         $advertisement->save();
 
         $advertisement->advertisementDisplay()->createMany($payload["merchants"]);

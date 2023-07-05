@@ -14,10 +14,14 @@ class AdvertisementResource extends JsonResource
      */
     public function toArray($request): array
     {
+        if(is_null($this->resource)) {
+            return [];
+        }
+
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'source_url'=>$this->source_url,
+            'source_url'=>url('/storage/'.$this->source_url),
             'duration'=>$this->duration
         ];
     }

@@ -1,12 +1,10 @@
 //import hook useState from react
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "./../../Layouts/Default";
 import "../../../css/custom.css";
 
 //import inertia adapter
-import { router, Link, useForm } from "@inertiajs/react";
-import { forEach } from "lodash";
-
+import { Link } from "@inertiajs/react";
 export default function ViewAdvertisement({ advertisement }) {
     const [merchants, setMerchants] = useState([]);
     const changeMerchants = (merchants) => {
@@ -33,14 +31,6 @@ export default function ViewAdvertisement({ advertisement }) {
         );
         return tmp.merchant_name;
     };
-
-    // const merchantName = (merchant_id) => {
-    //     return merchants.find(
-    //         (merchants) =>
-    //             parseInt(merchants.merchant_id) === parseInt(merchant_id)
-    //     );
-    // };
-
     return (
         <Layout>
             <nav className="flex my-5" aria-label="Breadcrumb">

@@ -16,11 +16,10 @@ export default function EditAdvertisement({ advertisement, errors }) {
         name: advertisement.name,
         duration: advertisement.duration,
         source_url: "/storage/" + advertisement.source_url,
+        is_active: advertisement.is_active,
         merchants: [],
         image: "undefined",
     });
-
-    console.warn("checked", data.merchants);
 
     const rowSelectCritera = (row) =>
         data.merchants.length == 0
@@ -48,7 +47,6 @@ export default function EditAdvertisement({ advertisement, errors }) {
     const changeImage = (file) => {
         // setImage(file);
         setData("image", file);
-        console.warn("data", data);
     };
 
     const changeMerchants = (merchants) => {
@@ -135,6 +133,7 @@ export default function EditAdvertisement({ advertisement, errors }) {
             duration: data.duration,
             image: data.image,
             merchants: data.merchants,
+            is_active: data.is_active,
         });
     };
 
@@ -296,6 +295,32 @@ export default function EditAdvertisement({ advertisement, errors }) {
                                 {errors.image}{" "}
                             </span>
                         )}
+                    </div>
+                    <div className="w-full px-2 py-4">
+                        <label
+                            htmlFor="merchants"
+                            className={`block text-sm mt-4 font-medium leading-6  ${
+                                errors.merchants != null
+                                    ? "text-red-600"
+                                    : "text-gray-900"
+                            }`}
+                        >
+                            Status Iklan
+                        </label>
+                        <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                onChange={(e) =>
+                                    setData(
+                                        "is_active",
+                                        e.target.checked ? 1 : 0
+                                    )
+                                }
+                                className="sr-only peer"
+                                defaultChecked={advertisement.is_active}
+                            ></input>
+                            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        </label>
                     </div>
                     <div className="w-full px-2">
                         <label

@@ -11,7 +11,7 @@ class Advertisement extends Model
     use HasFactory;
     use HasUuids;
     protected $table = 'advertisements';
-    protected $fillable = ['name','source_url','duration'];
+    protected $fillable = ['name','source_url','duration','is_active'];
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     protected $appends = ['merchants'];

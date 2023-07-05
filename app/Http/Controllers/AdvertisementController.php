@@ -71,6 +71,12 @@ class AdvertisementController extends Controller
         return redirect('advertisement');
     }
 
+    public function changeStatus(string $id)
+    {
+        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        $advertisement->update(['is_active'=> !$advertisement->is_active]);
+    }
+
     public function view($id)
     {
         $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
@@ -89,6 +95,10 @@ class AdvertisementController extends Controller
                 ->select('id', 'name', 'source_url', 'duration')
                 ->orderBy('created_at', 'ASC')
                 ->first();
+
+                if(is_null($ads)) {
+                    return null;
+                }
 
                 $ads->created_at = Carbon::now();
                 $ads->save();

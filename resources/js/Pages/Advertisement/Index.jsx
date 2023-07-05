@@ -19,6 +19,22 @@ export default function Index({ advertisements }) {
         },
         {
             cell: (row) => (
+                <span
+                    className={`text-xs font-semibold inline-block py-1 px-2 rounded-full text-white ${
+                        row.is_active == "1" ? "bg-green-500" : "bg-red-500"
+                    } last:mr-0 mr-1`}
+                >
+                    {row.is_active == "1" ? "Active" : "In Active"}
+                </span>
+            ),
+            name: "Status IKlan",
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: false,
+            minWidth: "200px",
+        },
+        {
+            cell: (row) => (
                 <div className="inline-flex">
                     <Link
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
