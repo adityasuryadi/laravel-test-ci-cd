@@ -21,4 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/ads', [AdvertisementController::class,'getAds']);
+Route::post('/ads', [AdvertisementController::class,'getAds']);

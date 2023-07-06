@@ -98,7 +98,7 @@ class AdvertisementServiceImpl implements AdvertisementService
                 $ads = $this->advertisementRepository->getAdvertisementDisplayByMerchant($merchantId);
                 if($ads) {
                     $this->advertisementRepository->Update($ads->id, ['last_display'=>Carbon::now()]);
-                    $this->advertisementDisplayDetailRepository->Insert($ads, ['merchant_id'=>$merchantId]);
+                    $this->advertisementDisplayDetailRepository->Insert($ads, ['merchant_id'=>$merchantId,'payload'=>$request->payload]);
                 }
                 return $ads;
             });

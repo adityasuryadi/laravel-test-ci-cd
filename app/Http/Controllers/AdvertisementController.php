@@ -85,7 +85,6 @@ class AdvertisementController extends Controller
 
     public function getAds(Request $request): JsonResponse
     {
-
         try {
             $ads = $this->advertisementService->getAdsByMerchant($request);
             return (new AdvertisementResource($ads))->additional(['response_status'=>'OK','response_code'=>200])->response()->setStatusCode(200);
