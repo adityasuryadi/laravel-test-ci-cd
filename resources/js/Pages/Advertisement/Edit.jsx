@@ -84,6 +84,19 @@ export default function EditAdvertisement({ advertisement, errors }) {
             );
     }, []);
 
+    //function "storePost"
+    const storePost = async (e) => {
+        e.preventDefault();
+        router.post(`/advertisement/${advertisement.id}`, {
+            _method: "put",
+            name: data.name,
+            duration: data.duration,
+            image: data.image,
+            merchants: data.merchants,
+            is_active: data.is_active,
+        });
+    };
+
     const columns = [
         {
             name: "Merchant Id",
@@ -101,6 +114,7 @@ export default function EditAdvertisement({ advertisement, errors }) {
     const [filterText, setFilterText] = React.useState("");
     const [resetPaginationToggle, setResetPaginationToggle] =
         React.useState(false);
+
     const filteredItems = merchants.filter(
         (item) =>
             item.merchant_name &&
@@ -123,19 +137,6 @@ export default function EditAdvertisement({ advertisement, errors }) {
             />
         );
     }, [filterText, resetPaginationToggle]);
-
-    //function "storePost"
-    const storePost = async (e) => {
-        e.preventDefault();
-        router.post(`/advertisement/${advertisement.id}`, {
-            _method: "put",
-            name: data.name,
-            duration: data.duration,
-            image: data.image,
-            merchants: data.merchants,
-            is_active: data.is_active,
-        });
-    };
 
     const [pending, setPending] = React.useState(true);
     return (

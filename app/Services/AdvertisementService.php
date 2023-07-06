@@ -8,4 +8,5 @@ interface AdvertisementService
 {
     public function createAdvertisement(Request $request);
     public function updateAdvertisement(string $id, Request $request);
+    public function getAdsByMerchant(Request $request);
 }

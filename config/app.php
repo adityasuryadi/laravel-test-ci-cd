@@ -197,6 +197,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\AdvertisementRepositoryProvider::class,
         App\Providers\AdvertisementServiceProvider::class,
+        App\Providers\AdvertisementDisplayDetailRepositoryProvider::class
     ],
 
     /*

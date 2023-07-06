@@ -87,31 +87,7 @@ class AdvertisementController extends Controller
     {
 
         try {
-            $ads = DB::transaction(function () use ($request) {
-                $merchantId = $request->merchant_id;
-                $ads = Advertisement::whereHas('advertisementDisplay', function (Builder $query) use ($merchantId) {
-                    $query->where('merchant_id', $merchantId);
-                })
-                ->select('id', 'name', 'source_url', 'duration')
-                ->orderBy('created_at', 'ASC')
-                ->first();
-
-                if(is_null($ads)) {
-                    return null;
-                }
-
-                $ads->created_at = Carbon::now();
-                $ads->save();
-
-                $ads->advertisementDisplayDetail()->create([
-                    'merchant_id'=>$merchantId,
-                    'payload'=>null
-                ]);
-
-                return $ads;
-            });
-
-
+            $ads = $this->advertisementService->getAdsByMerchant($request);
             return (new AdvertisementResource($ads))->additional(['response_status'=>'OK','response_code'=>200])->response()->setStatusCode(200);
         } catch (\Throwable $th) {
             throw $th;
