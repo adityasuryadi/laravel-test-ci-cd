@@ -3,30 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AdvertisementResource;
-use App\Models\Advertisement;
 use App\Services\AdvertisementService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use DB;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
-use App\Models\AdvertisementDisplayDetail;
+use App\Http\Requests\AdvertisementCreateRequest;
+use App\Http\Requests\AdvertisementUpdateRequest;
+use App\Repositories\AdvertisementRepository;
 
 class AdvertisementController extends Controller
 {
     private $advertisementService;
+    private $advertisementRepository;
 
-    public function __construct(AdvertisementService $advertisementService)
+    public function __construct(AdvertisementService $advertisementService, AdvertisementRepository $advertisementRepository)
     {
         $this->advertisementService = $advertisementService;
+        $this->advertisementRepository = $advertisementRepository;
     }
 
     public function index(): Response
     {
-        $advertisements = Advertisement::with('advertisementDisplay')->get();
+        $advertisements = $this->advertisementRepository->listAdvertisement();
         return inertia('Advertisement/Index', ['advertisements'=>$advertisements]);
     }
 
@@ -35,15 +34,8 @@ class AdvertisementController extends Controller
         return inertia('Advertisement/Create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(AdvertisementCreateRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name'=>'required',
-            'duration'=>'required',
-            'image'=>'required|image',
-            'merchants'=>'required|array|min:1'
-        ]);
-
         $this->advertisementService->createAdvertisement($request);
 
         return redirect('advertisement');
@@ -51,21 +43,12 @@ class AdvertisementController extends Controller
 
     public function edit($id): Response
     {
-        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        $advertisement = $this->advertisementRepository->getAdvertisementById($id);
         return Inertia('Advertisement/Edit', ['advertisement'=>$advertisement]);
     }
 
-    public function update($id, Request $request): RedirectResponse
+    public function update($id, AdvertisementUpdateRequest $request): RedirectResponse
     {
-        $validationRules = [
-            'name'=>'required',
-            'duration'=>'required|numeric',
-            'merchants'=>'required|array|min:1'
-        ];
-        if($request->file('image')) {
-            $validationRules['image'] = 'required|image';
-        }
-        $this->validate($request, $validationRules);
         $this->advertisementService->updateAdvertisement($id, $request);
 
         return redirect('advertisement');
@@ -73,13 +56,13 @@ class AdvertisementController extends Controller
 
     public function changeStatus(string $id)
     {
-        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        $advertisement = $this->advertisementRepository->getAdvertisementById($id);
         $advertisement->update(['is_active'=> !$advertisement->is_active]);
     }
 
-    public function view($id)
+    public function view($id): Response
     {
-        $advertisement = Advertisement::with('advertisementDisplay')->findOrFail($id);
+        $advertisement = $this->advertisementRepository->getAdvertisementById($id);
         return Inertia('Advertisement/View', ['advertisement'=>$advertisement]);
     }
 

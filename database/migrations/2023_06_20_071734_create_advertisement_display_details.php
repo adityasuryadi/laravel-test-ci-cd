@@ -15,6 +15,8 @@ return new class () extends Migration {
         Schema::create('advertisement_display_details', function (Blueprint $table) {
             $table->id();
             $table->uuid('advertisement_id');
+            $table->integer('merchant_id');
+            $table->jsonb('payload');
             $table->integer('view');
             $table->timestamps();
         });
