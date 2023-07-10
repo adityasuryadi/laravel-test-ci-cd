@@ -15,8 +15,10 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
+          repository: ${{secrets.GIT_REPO}}
+          token: ${{secrets.GIT_TOKEN}}
           script: |
             cd /home/vkpads/laravel-test-ci-cd
             git pull origin staging
-            sudo docker-compose down ads-app
-            sudo docker-compose up -d ads-app
+            sudo docker-compose down app
+            sudo docker-compose up -d app
