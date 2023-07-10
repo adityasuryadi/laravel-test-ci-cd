@@ -3,7 +3,7 @@ name: Continuous Integration
 on:
   pull_request:
     branches:
-      - master
+      - staging
 
 jobs:
   test:
@@ -29,3 +29,15 @@ jobs:
         run: ./vendor/bin/pint
       - name: Run tests
         run: php artisan test
+      - name: SSH and deploy staging
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /home/vkpads/laravel-test-ci-cd
+            git pull origin staging
+            npm run build
+            php artisan optimize
