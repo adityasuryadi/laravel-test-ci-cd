@@ -20,6 +20,8 @@ jobs:
           script: |
             cd /home/vkpads/laravel-test-ci-cd
             git pull origin staging
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             npm run build
-            docker exec ads-app bash -c "composer install"
-            docker exec ads-app bash -c "php artisan optimize"
+            sudo docker exec ads-app bash -c "composer install"
+            sudo docker exec ads-app bash -c "php artisan optimize"
