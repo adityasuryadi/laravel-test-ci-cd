@@ -19,6 +19,8 @@ jobs:
           token: ${{secrets.GIT_TOKEN}}
           script: |
             cd /home/vkpads/laravel-test-ci-cd
+            git config user.name adityasuryadi
+            git config user.email adityasuryaditya@gmail.com
             git pull origin staging
             sudo docker-compose down app
             sudo docker-compose up -d app
