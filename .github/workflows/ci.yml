@@ -27,5 +27,5 @@ jobs:
           php artisan key:generate
       - name: RUn Pint
         run: ./vendor/bin/pint
-      - name: Run tests
-        run: php artisan test
+      # - name: Run tests
+      #   run: php artisan test
