@@ -17,8 +17,9 @@ jobs:
           # passphrase: ${{secrets.SSH_PASSPHRASE}}
           key: ${{secrets.SSH_KEY}}
           port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd /home/vkpads/laravel-test-ci-cd
-            git pull origin staging
-            docker-compose down app
-            docker-compose up -d app
+          # script: |
+          #   cd /home/vkpads/laravel-test-ci-cd
+          #   git pull origin staging
+          #   docker-compose down app
+          #   docker-compose up -d app
+          script: whoami
