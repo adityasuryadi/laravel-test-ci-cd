@@ -39,6 +39,5 @@ jobs:
           script: |
             cd /home/vkpads/laravel-test-ci-cd
             git pull origin staging
-            composer install
-            npm run build
-            php artisan optimize
+            sudo docker-compose down ads-app
+            sudo docker-compose up -d ads-app
