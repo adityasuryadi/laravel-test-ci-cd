@@ -64,6 +64,7 @@ services:
             dockerfile: postgres.Dockerfile
             context: .
         container_name: postgres-service
+        restart: always
         ports:
             - ${DB_EXPOSE_PORT}:5432
         networks:
