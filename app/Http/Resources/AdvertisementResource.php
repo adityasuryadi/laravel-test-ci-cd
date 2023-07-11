@@ -22,6 +22,7 @@ class AdvertisementResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'source_url'=>url('/storage/'.$this->source_url),
+            'link'=>$this->link,
             'duration'=>$this->duration
         ];
     }

@@ -16,6 +16,7 @@ export default function CreatePost({ errors }) {
     const [selectedRows, setSelectedRows] = React.useState([]);
     const [adsName, setAdsName] = useState("");
     const [adsDuration, setAdsDuration] = useState("");
+    const [adsLink, setAdsLink] = useState("");
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [merchants, setMerchants] = useState([]);
@@ -107,6 +108,7 @@ export default function CreatePost({ errors }) {
             name: adsName,
             duration: adsDuration,
             merchants: selectedRows,
+            link: adsLink,
             image: image,
         });
     };
@@ -181,7 +183,7 @@ export default function CreatePost({ errors }) {
 
             <form className="space-y-6" action="#" method="POST">
                 <div className="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
-                    <div className="w-full px-2 md:w-2/3">
+                    <div className="w-full px-2 md:w-3/6">
                         <label
                             htmlFor="email"
                             className={`block text-sm font-medium leading-6  ${
@@ -210,7 +212,42 @@ export default function CreatePost({ errors }) {
                         )}
                     </div>
 
-                    <div className="w-full px-2 md:w-1/3">
+                    <div className="w-full px-2 md:w-2/6">
+                        <label
+                            htmlFor="adsLink"
+                            className={`block text-sm font-medium leading-6  ${
+                                errors.name != null
+                                    ? "text-red-600"
+                                    : "text-gray-900"
+                            }`}
+                        >
+                            Link Iklan
+                        </label>
+                        <div className="text-sm">
+                            <a
+                                href="#"
+                                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                            ></a>
+                        </div>
+                        <input
+                            id="adsLink"
+                            name="adsLink"
+                            type="adsLink"
+                            autoComplete="adsLink"
+                            value={adsLink}
+                            onChange={(e) => setAdsLink(e.target.value)}
+                            required
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        />
+                        {errors.link && (
+                            <span className="text-sm text-red-600">
+                                {" "}
+                                {errors.link}{" "}
+                            </span>
+                        )}
+                    </div>
+
+                    <div className="w-full px-2 md:w-1/6">
                         <label
                             htmlFor="adsDuration"
                             className={`block text-sm font-medium leading-6  ${
