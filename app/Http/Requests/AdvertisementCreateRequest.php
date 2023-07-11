@@ -26,6 +26,7 @@ class AdvertisementCreateRequest extends FormRequest
         return [
             'name'=>['required'],
             'duration'=>['required'],
+            'link'=>['required'],
             'image'=>['required','image'],
             'merchants'=>['required','array','min:1']
         ];

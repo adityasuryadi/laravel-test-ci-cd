@@ -26,11 +26,12 @@ class AdvertisementUpdateRequest extends FormRequest
         $rules = [
             'name'=>['required'],
             'duration'=>['required'],
-            'image'=>['required','image'],
+            'link'=>['required'],
             'merchants'=>['required','array','min:1']
         ];
 
-        if($this->file('image')) {
+
+        if(!is_null($this->get('image'))) {
             $rules['image'] = ['required','image'];
         }
 
