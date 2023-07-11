@@ -12,7 +12,7 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('advertisements', function (Blueprint $table) {
+        Schema::table('advertisements', function (Blueprint $table) {
             $table->string('link', 255);
         });
     }
