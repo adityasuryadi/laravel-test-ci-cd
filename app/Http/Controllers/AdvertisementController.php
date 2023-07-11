@@ -70,7 +70,10 @@ class AdvertisementController extends Controller
     {
         try {
             $ads = $this->advertisementService->getAdsByMerchant($request);
-            return (new AdvertisementResource($ads))->additional(['response_status'=>'OK','response_code'=>200])->response()->setStatusCode(200);
+            if ($ads != null) {
+                return (new AdvertisementResource($ads))->additional(['response_status'=>'OK','response_code'=>200])->response()->setStatusCode(200);
+            }
+            return response()->json(['data'=>null,'response_status'=>'NOT FOUND','response_code'=>404], 404);
         } catch (\Throwable $th) {
             throw $th;
         }
