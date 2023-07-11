@@ -35,7 +35,7 @@ class AdvertisementRepositoryImpl implements AdvertisementRepository
     }
 
     // query untuk get iklan terakhir by merchant id
-    public function getAdvertisementDisplayByMerchant(string $merchantId): Advertisement
+    public function getAdvertisementDisplayByMerchant(string $merchantId): ?Advertisement
     {
         $ads = Advertisement::whereHas('advertisementDisplay', function (Builder $query) use ($merchantId) {
             $query->where('merchant_id', $merchantId);
