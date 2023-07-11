@@ -45,6 +45,12 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 RUN chmod +rwx /var/www
 
 RUN chmod -R 777 /var/www
+
+# setup FE
+RUN npm install
+
+RUN npm run build
+
 # setup composer and laravel
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
