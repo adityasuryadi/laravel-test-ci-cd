@@ -17,9 +17,9 @@ return new class () extends Migration {
             $table->string('name', 255);
             $table->string('source_url');
             $table->integer('duration');
-            $table->integer('is_active');
+            $table->integer('is_active')->default(1);
             $table->timestamp('last_display');
-            $table->jsonb('merchants');
+            $table->jsonb('merchants')->nullable(true);
             $table->timestamps();
         });
     }

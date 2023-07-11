@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->id();
             $table->uuid('advertisement_id');
             $table->integer('merchant_id');
-            $table->jsonb('payload');
+            $table->jsonb('payload')->nullable(true);
             $table->integer('view');
             $table->timestamps();
         });
