@@ -10,7 +10,7 @@ interface AdvertisementRepository
     public function Insert(array $payload): void;
     public function Update(string $id, array $payload): void;
     public function deleteAdvertisementDisplay(string $advertisementId): void;
-    public function getAdvertisementDisplayByMerchant(string $merchantId): Advertisement;
+    public function getAdvertisementDisplayByMerchant(string $merchantId): ?Advertisement;
     public function getAdvertisementById(string $advertiementId): Advertisement;
     public function listAdvertisement(): Collection;
 }
