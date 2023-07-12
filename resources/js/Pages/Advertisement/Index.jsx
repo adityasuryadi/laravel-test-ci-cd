@@ -1,6 +1,7 @@
 import { Link } from "@inertiajs/react";
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
+import FilterComponent from "@/Layouts/FilterComponent";
 
 //import layout
 import Layout from "./../../Layouts/Default";
@@ -58,6 +59,31 @@ export default function Index({ advertisements }) {
         },
     ];
     const data = advertisements;
+    const [filterText, setFilterText] = React.useState("");
+    const [resetPaginationToggle, setResetPaginationToggle] =
+        React.useState(false);
+    const filteredItems = advertisements.filter(
+        (item) =>
+            item.name &&
+            item.name.toLowerCase().includes(filterText.toLowerCase())
+    );
+
+    const subHeaderComponentMemo = React.useMemo(() => {
+        const handleClear = () => {
+            if (filterText) {
+                setResetPaginationToggle(!resetPaginationToggle);
+                setFilterText("");
+            }
+        };
+
+        return (
+            <FilterComponent
+                onFilter={(e) => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+            />
+        );
+    }, [filterText, resetPaginationToggle]);
     return (
         <Layout>
             <nav className="flex my-5" aria-label="Breadcrumb">
@@ -109,7 +135,14 @@ export default function Index({ advertisements }) {
                     Add
                 </Link>
             </div>
-            <DataTable title="Advertisements" columns={columns} data={data} />
+            <DataTable
+                title="Advertisements"
+                columns={columns}
+                data={filteredItems}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                pagination
+            />
         </Layout>
     );
 }
