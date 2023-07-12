@@ -51,10 +51,9 @@ export default function InputImage({ setImage, image }) {
                                     onChange={handleChangeImage}
                                 ></input>
                             </label>
-                            <p className="pl-1">or drag and drop</p>
                         </div>
-                        <p className="text-xs leading-5 text-gray-600">
-                            PNG, JPG, GIF up to 10MB
+                        <p className="text-xs text-center leading-5 text-gray-600">
+                            PNG, JPG, GIF up to 2MB
                         </p>
                     </div>
                 </div>
