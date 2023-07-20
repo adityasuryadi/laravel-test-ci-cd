@@ -23,9 +23,9 @@ class AdvertisementServiceTest extends TestCase
         self::assertNotNull($this->advertisementService);
     }
 
-    public function testGetAds()
-    {
-        $ads= Advertisement::where('merchants->merchant_id', 30)->get();
-        dd($ads);
-    }
+    // public function testGetAds()
+    // {
+    //     $ads= \App\Models\Advertisement::where('merchants->merchant_id', 30)->get();
+    //     dd($ads);
+    // }
 }
