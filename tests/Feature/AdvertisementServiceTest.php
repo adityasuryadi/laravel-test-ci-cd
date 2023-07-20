@@ -7,6 +7,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Advertisement;
+use App\Repositories\AdvertisementRepository;
+use Illuminate\Http\Request;
+use Mockery;
+use Mockery\Mock;
+use Mockery\MockInterface;
 
 class AdvertisementServiceTest extends TestCase
 {
@@ -23,9 +28,14 @@ class AdvertisementServiceTest extends TestCase
         self::assertNotNull($this->advertisementService);
     }
 
-    // public function testGetAds()
-    // {
-    //     $ads= \App\Models\Advertisement::where('merchants->merchant_id', 30)->get();
-    //     dd($ads);
-    // }
+    public function test_get_ads_by_merchant_id_not_found(): void
+    {
+
+        $request =  $this->instance(Request::class, Mockery::mock(Request::class, function (MockInterface $mock) {
+            $mock->makePartial();
+            $mock->shouldReceive('all')->andReturn(['merchant_id'=>100000]);
+        }));
+
+        self::assertNull($this->advertisementService->getAdsByMerchant($request));
+    }
 }
