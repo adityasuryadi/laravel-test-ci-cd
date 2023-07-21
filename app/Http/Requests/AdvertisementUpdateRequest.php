@@ -32,7 +32,7 @@ class AdvertisementUpdateRequest extends FormRequest
 
 
         if(!is_null($this->get('image'))) {
-            $rules['image'] = ['required','image'];
+            $rules['image'] = ['required','image','max:2048','mimes:jpg,jpeg,gif,png'];
         }
 
         return $rules;
