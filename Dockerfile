@@ -13,9 +13,11 @@ RUN ["sh",  "./nodesource_setup.sh"]
 # Install environment dependencies
 RUN apt-get update \
 	# gd
-	&& apt-get install -y libpq-dev build-essential  openssl nginx libfreetype6-dev libjpeg-dev libpng-dev libwebp-dev zlib1g-dev libzip-dev gcc g++ make vim unzip curl git jpegoptim optipng pngquant gifsicle locales libonig-dev nodejs  \
+	&& apt-get install -y libpq-dev libfreetype-dev build-essential  openssl nginx libfreetype6-dev libjpeg-dev libpng-dev libwebp-dev libjpeg62-turbo-dev libzip-dev gcc g++ make vim unzip curl git jpegoptim optipng pngquant gifsicle locales libonig-dev nodejs npm  \
 	&& docker-php-ext-configure gd  \
 	&& docker-php-ext-install gd \
+    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
 	# gmp
 	&& apt-get install -y --no-install-recommends libgmp-dev \
 	&& docker-php-ext-install gmp \
