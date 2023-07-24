@@ -13,7 +13,9 @@ RUN ["sh",  "./nodesource_setup.sh"]
 # Install environment dependencies
 RUN apt-get update \
 	# gd
-	&& apt-get install -y libpq-dev libfreetype-dev build-essential  openssl nginx libfreetype6-dev libjpeg-dev libpng-dev libwebp-dev libjpeg62-turbo-dev libzip-dev gcc g++ make vim unzip curl git jpegoptim optipng pngquant gifsicle locales libonig-dev nodejs npm  \
+  
+	&& apt-get install -y libpq-dev build-essential  openssl nginx libfreetype6-dev libjpeg-dev libpng-dev libwebp-dev zlib1g-dev libzip-dev gcc g++ make vim unzip curl git jpegoptim optipng pngquant gifsicle locales libonig-dev npm  \
+
 	&& docker-php-ext-configure gd  \
 	&& docker-php-ext-install gd \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
@@ -43,6 +45,11 @@ RUN apt-get update \
 COPY . /var/www
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini && \
+#     sed -i 's/upload_max_filesize = 20M/upload_max_filesize = 128M/g' /usr/local/etc/php/php.ini
+
+COPY ./upload.ini /usr/local/etc/php/conf.d/uploads.ini
 
 RUN chmod +rwx /var/www
 
