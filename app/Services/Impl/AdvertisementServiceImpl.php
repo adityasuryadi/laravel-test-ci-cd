@@ -34,16 +34,22 @@ class AdvertisementServiceImpl implements AdvertisementService
                 $extension = $file->extension();
                 $saveName = sha1($name.date('Y-m-d H:i:s')).'.'.$extension;
 
-                $image = Image::make($file)->resize(900, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })->encode('png', 60);
+
+                if(strtolower($extension) == 'gif') {
+                    $image = $file;
+                    Storage::put($saveName, file_get_contents($file));
+                } else {
+                    $image = Image::make($file)->resize(900, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->encode($extension, 60);
+                    Storage::put($saveName, $image->stream(), 'public');
+                }
 
                 foreach ($request->merchants as $value) {
                     array_push($merchants, ['merchant_id'=>$value]);
                 }
 
-                Storage::put($saveName, $image->stream(), 'public');
                 $payload['merchants'] = $merchants;
                 $payload["source_url"] = $saveName;
                 $payload["last_display"] = Carbon::now();
@@ -69,11 +75,17 @@ class AdvertisementServiceImpl implements AdvertisementService
                     $name = $file->getClientOriginalName();
                     $extension = $file->extension();
                     $saveName = sha1($name.date('Y-m-d H:i:s')).'.'.$extension;
-                    $image = Image::make($file)->resize(900, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })->encode('png', 60);
-                    Storage::put($saveName, $image->stream(), 'public');
+                    if(strtolower($extension) == 'gif') {
+                        $image = $file;
+                        Storage::put($saveName, file_get_contents($file));
+                    } else {
+                        $image = Image::make($file)->resize(900, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->encode($extension, 60);
+                        Storage::put($saveName, $image->stream(), 'public');
+                    }
+
                     $payload["source_url"] = $saveName;
                 }
 
