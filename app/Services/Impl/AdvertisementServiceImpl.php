@@ -6,20 +6,22 @@ use App\Repositories\AdvertisementDisplayDetailRepository;
 use App\Models\Advertisement;
 use App\Repositories\AdvertisementRepository;
 use App\Services\AdvertisementService;
+use App\Services\FileService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Image;
 use Illuminate\Support\Facades\DB;
 
 class AdvertisementServiceImpl implements AdvertisementService
 {
     private $advertisementRepository;
     private $advertisementDisplayDetailRepository;
-    public function __construct(AdvertisementRepository $advertisementRepository, AdvertisementDisplayDetailRepository $advertisementDisplayDetailRepository)
+    private $fileService;
+    public function __construct(AdvertisementRepository $advertisementRepository, AdvertisementDisplayDetailRepository $advertisementDisplayDetailRepository, FileService $fileService)
     {
         $this->advertisementRepository = $advertisementRepository;
         $this->advertisementDisplayDetailRepository = $advertisementDisplayDetailRepository;
+        $this->fileService = $fileService;
     }
 
     public function createAdvertisement(Request $request)
@@ -30,21 +32,7 @@ class AdvertisementServiceImpl implements AdvertisementService
 
                 $merchants = [];
                 $file = $request->file('image');
-                $name = $file->getClientOriginalName();
-                $extension = $file->extension();
-                $saveName = sha1($name.date('Y-m-d H:i:s')).'.'.$extension;
-
-
-                if(strtolower($extension) == 'gif') {
-                    $image = $file;
-                    Storage::put($saveName, file_get_contents($file));
-                } else {
-                    $image = Image::make($file)->resize(900, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    })->encode($extension, 60);
-                    Storage::put($saveName, $image->stream(), 'public');
-                }
+                $saveName = $this->fileService->uploadImage($file);
 
                 foreach ($request->merchants as $value) {
                     array_push($merchants, ['merchant_id'=>$value]);
@@ -72,20 +60,7 @@ class AdvertisementServiceImpl implements AdvertisementService
                 $payload['source_url'] = $advertisement->source_url;
 
                 if ($file) {
-                    $name = $file->getClientOriginalName();
-                    $extension = $file->extension();
-                    $saveName = sha1($name.date('Y-m-d H:i:s')).'.'.$extension;
-                    if(strtolower($extension) == 'gif') {
-                        $image = $file;
-                        Storage::put($saveName, file_get_contents($file));
-                    } else {
-                        $image = Image::make($file)->resize(900, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })->encode($extension, 60);
-                        Storage::put($saveName, $image->stream(), 'public');
-                    }
-
+                    $saveName = $this->fileService->uploadImage($file);
                     $payload["source_url"] = $saveName;
                 }
 
