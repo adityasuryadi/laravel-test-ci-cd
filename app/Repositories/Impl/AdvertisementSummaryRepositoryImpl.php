@@ -13,7 +13,8 @@ class AdvertisementSummaryRepositoryImpl implements AdvertisementSummaryReposito
             'advertisement_id'=>$payload['advertisement_id']
         ]);
 
-        $summary->total_view  += $payload['duration'];
+        $summary->total_duration  += $payload['duration'];
+        $summary->total_view += 1;
         $summary->save();
     }
 }
