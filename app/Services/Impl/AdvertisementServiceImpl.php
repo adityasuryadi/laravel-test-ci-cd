@@ -5,6 +5,7 @@ namespace App\Services\Impl;
 use App\Repositories\AdvertisementDisplayDetailRepository;
 use App\Models\Advertisement;
 use App\Repositories\AdvertisementRepository;
+use App\Repositories\AdvertisementSummaryRepository;
 use App\Services\AdvertisementService;
 use App\Services\FileService;
 use Carbon\Carbon;
@@ -17,11 +18,13 @@ class AdvertisementServiceImpl implements AdvertisementService
     private $advertisementRepository;
     private $advertisementDisplayDetailRepository;
     private $fileService;
-    public function __construct(AdvertisementRepository $advertisementRepository, AdvertisementDisplayDetailRepository $advertisementDisplayDetailRepository, FileService $fileService)
+    private $advertisementSummaryRepository;
+    public function __construct(AdvertisementRepository $advertisementRepository, AdvertisementDisplayDetailRepository $advertisementDisplayDetailRepository, FileService $fileService, AdvertisementSummaryRepository $advertisementSummaryRepository)
     {
         $this->advertisementRepository = $advertisementRepository;
         $this->advertisementDisplayDetailRepository = $advertisementDisplayDetailRepository;
         $this->fileService = $fileService;
+        $this->advertisementSummaryRepository = $advertisementSummaryRepository;
     }
 
     public function createAdvertisement(Request $request)
@@ -86,6 +89,7 @@ class AdvertisementServiceImpl implements AdvertisementService
                 if($ads) {
                     $this->advertisementRepository->Update($ads->id, ['last_display'=>Carbon::now()]);
                     $this->advertisementDisplayDetailRepository->Insert($ads, ['merchant_id'=>$merchantId,'payload'=>$request->payload]);
+                    $this->advertisementSummaryRepository->insert(['advertisement_id'=>$ads->id,'duration'=>$ads->duration ?? 0]);
                 }
                 return $ads;
             });
