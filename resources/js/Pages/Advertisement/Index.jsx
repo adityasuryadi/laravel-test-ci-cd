@@ -2,6 +2,7 @@ import { Link } from "@inertiajs/react";
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import FilterComponent from "@/Layouts/FilterComponent";
+import { secondsToTime } from "@/Helper/time";
 
 //import layout
 import Layout from "./../../Layouts/Default";
@@ -31,7 +32,7 @@ export default function Index({ advertisements }) {
             id: "ads_total_duration",
             selector: (row) =>
                 row.advertisement_summary != null
-                    ? row.advertisement_summary.total_duration
+                    ? secondsToTime(row.advertisement_summary.total_duration)
                     : 0,
         },
         {
