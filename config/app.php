@@ -199,6 +199,7 @@ return [
         App\Providers\AdvertisementServiceProvider::class,
         App\Providers\AdvertisementDisplayDetailRepositoryProvider::class,
         App\Providers\FileServiceProvider::class,
+        App\Providers\AdvertisementSummaryRepositoryProvider::class,
     ],
 
     /*

@@ -26,6 +26,7 @@ class AdvertisementController extends Controller
     public function index(): Response
     {
         $advertisements = $this->advertisementRepository->listAdvertisement();
+
         return inertia('Advertisement/Index', ['advertisements'=>$advertisements]);
     }
 
