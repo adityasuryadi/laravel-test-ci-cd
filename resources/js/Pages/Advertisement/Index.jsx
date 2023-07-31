@@ -7,7 +7,6 @@ import FilterComponent from "@/Layouts/FilterComponent";
 import Layout from "./../../Layouts/Default";
 
 export default function Index({ advertisements }) {
-    console.warn("ads data", advertisements);
     const columns = [
         {
             name: "Nama IKlan",
@@ -22,12 +21,18 @@ export default function Index({ advertisements }) {
         {
             name: "Total View",
             id: "ads_total_view",
-            selector: (row) => row.advertisement_summary.total_view ?? 0,
+            selector: (row) =>
+                row.advertisement_summary != null
+                    ? row.advertisement_summary.total_view
+                    : 0,
         },
         {
             name: "Total Durasi",
             id: "ads_total_duration",
-            selector: (row) => row.advertisement_summary.total_duration ?? 0,
+            selector: (row) =>
+                row.advertisement_summary != null
+                    ? row.advertisement_summary.total_duration
+                    : 0,
         },
         {
             cell: (row) => (
