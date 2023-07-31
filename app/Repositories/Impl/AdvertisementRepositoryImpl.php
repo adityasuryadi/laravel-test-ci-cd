@@ -55,7 +55,7 @@ class AdvertisementRepositoryImpl implements AdvertisementRepository
 
     public function listAdvertisement(): Collection
     {
-        $advertisements = Advertisement::with('advertisementDisplay')->get();
+        $advertisements = Advertisement::with('advertisementDisplay', 'advertisementSummary')->get();
         return $advertisements;
     }
 }
