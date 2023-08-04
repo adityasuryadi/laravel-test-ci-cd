@@ -72,7 +72,8 @@ class AdvertisementController extends Controller
     {
 
         $errors = Validator::make($request->all(), ['merchant_id'=>'required']);
-        if ($errors) {
+
+        if ($errors->fails()) {
             return response()->json(['data'=>$errors->errors(),'response_status'=>'BAD REQUEST','response_code'=>400], 400);
         }
 
