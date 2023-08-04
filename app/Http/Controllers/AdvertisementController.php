@@ -11,6 +11,7 @@ use Inertia\Response;
 use App\Http\Requests\AdvertisementCreateRequest;
 use App\Http\Requests\AdvertisementUpdateRequest;
 use App\Repositories\AdvertisementRepository;
+use Illuminate\Support\Facades\Validator;
 
 class AdvertisementController extends Controller
 {
@@ -67,8 +68,14 @@ class AdvertisementController extends Controller
         return Inertia('Advertisement/View', ['advertisement'=>$advertisement]);
     }
 
-    public function getAds(Request $request): JsonResponse
+    public function getAds(Request $request)
     {
+
+        $errors = Validator::make($request->all(), ['merchant_id'=>'required']);
+        if ($errors) {
+            return response()->json(['data'=>$errors->errors(),'response_status'=>'BAD REQUEST','response_code'=>400], 400);
+        }
+
         try {
             $ads = $this->advertisementService->getAdsByMerchant($request);
             if ($ads != null) {
