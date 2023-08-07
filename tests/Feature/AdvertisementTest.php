@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class AdvertisementTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -29,30 +29,31 @@ class AdvertisementTest extends TestCase
         $response->assertStatus(200);
     }
 
-    // public function test_get_ads_by_merchant_id(): void
-    // {
-    //     $ads = Advertisement::factory()->create([
-    //         'name'=>'',
-    //         'duration'=>10,
-    //         'link'=>'https://antrique.com',
-    //         'image'=>UploadedFile::fake()->image('avatar.png'),
-    //         'merchants'=>[1,2]
-    //     ]);
+    public function test_get_ads_by_merchant_id(): void
+    {
+        $advertisement = Advertisement::factory()
+        // ->has(AdvertisementDisplay::factory())
+        ->create();
 
-    //     $response = $this->post('api/ads', [
-    //         'merchant_id'=>30
-    //     ]);
-    //     $response->assertStatus(200);
-    //     $response->assertJson([
-    //         'data'=>[
-    //             "id"=> "999e8894-4545-4670-b6e3-d92d4ca6735a",
-    //             "name"=> "test 1",
-    //             "source_url"=> "https://103.189.234.137:8085/storage/0aeaa301a314a54bb887e7f4da387a079e756edc.gif",
-    //             "link"=> null,
-    //             "duration"=> 10
-    //         ]
-    //     ]);
-    // }
+        $display = AdvertisementDisplay::factory()->create(['advertisement_id'=>$advertisement->id,'merchant_id'=>30]);
+
+        $response = $this->post('api/ads', [
+            'merchant_id'=>30
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data'=>[
+                "id",
+                "name",
+                "link",
+                "source_url",
+                "duration"
+            ]
+        ]);
+
+
+    }
 
     // test untuk api get ads by merchantId
     public function test_get_advertisement_by_merchant_not_found()

@@ -22,7 +22,7 @@ class AdvertisementDisplayFactory extends Factory
             'advertisement_id'=>function () {
                 return Advertisement::factory()->create()->id;
             },
-            'merchant_id'=>fake()->randomDigit(3),
+            'merchant_id'=>fake()->randomDigitNotZero(),
         ];
     }
 }

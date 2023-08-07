@@ -20,7 +20,7 @@ class AdvertisementFactory extends Factory
         return [
             'name' => fake()->name(),
             'link' => fake()->url(),
-            'source_url'=>fake()->url(),
+            'source_url'=>Str::random(10).'.png',
             'duration' => fake()->randomDigit(2),
             'is_active'=>fake()->boolean(),
             'last_display'=>fake()->dateTime(),
