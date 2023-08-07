@@ -21,22 +21,18 @@ jobs:
           coverage: none
       - name: Install dependencies
         run: composer install -n --prefer-dist
-      # - name: Prepare Laravel Application
-      #   run: |
-      #     php artisan key:generate
+      - name: Prepare Laravel Application
+        run: |
+          cp .ci.env .env
+          php artisan key:generate
       - name: Run Pint
         run: ./vendor/bin/pint
       - name: Run migrate and tests
         run: php artisan migrate
         env:
           CI: true
-          PGHOST_TEST: ${{ secrets.PGHOST_TEST }}
-          PGUSER_TEST: ${{ secrets.PGUSER_TEST }}
-          PGDATABASE_TEST: ${{ secrets.PGDATABASE_TEST }}
-          PGPASSWORD_TEST: ${{ secrets.PGPASSWORD_TEST }}
-          PGPORT_TEST: ${{ secrets.PGPORT_TEST }}
-          PGHOST: ${{ secrets.PGHOST_TEST }}
-          PGUSER: ${{ secrets.PGUSER_TEST }}
-          PGDATABASE: ${{ secrets.PGDATABASE_TEST }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD_TEST }}
-          PGPORT: ${{ secrets.PGPORT_TEST }}
+          DB_HOST: ${{ secrets.PGHOST_TEST }}
+          DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          DB_PORT: ${{ secrets.PGPORT_TEST }}
