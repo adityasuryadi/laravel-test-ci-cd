@@ -71,7 +71,7 @@ class AdvertisementController extends Controller
     public function getAds(Request $request)
     {
 
-        $errors = Validator::make($request->all(), ['merchant_id'=>'required']);
+        $errors = Validator::make($request->all(), ['merchant_id'=>'required|numeric']);
 
         if ($errors->fails()) {
             return response()->json(['data'=>$errors->errors(),'response_status'=>'BAD REQUEST','response_code'=>400], 400);
