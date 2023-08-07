@@ -20,12 +20,42 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
       - name: Install dependencies
-        run: composer install -n --prefer-dist
+        run: |
+          composer install -n --prefer-dist
+          npm install
       - name: Prepare Laravel Application
         run: |
+          cp .ci.env .env.testing
           cp .ci.env .env
           php artisan key:generate
+          npm run build
       - name: Run Pint
         run: ./vendor/bin/pint
-      # - name: Run tests
-      #   run: php artisan test
+      - name: Run migrate
+        run: php artisan migrate
+        env:
+          CI: true
+          DB_HOST: ${{ secrets.PGHOST_TEST }}
+          DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          DB_PORT: ${{ secrets.PGPORT_TEST }}
+          TEST_DB_HOST: ${{ secrets.PGHOST_TEST }}
+          TEST_DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          TEST_DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          TEST_DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          TEST_DB_PORT: ${{ secrets.PGPORT_TEST }}
+      - name: Run test
+        run: php artisan test
+        env:
+          CI: true
+          DB_HOST: ${{ secrets.PGHOST_TEST }}
+          DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          DB_PORT: ${{ secrets.PGPORT_TEST }}
+          TEST_DB_HOST: ${{ secrets.PGHOST_TEST }}
+          TEST_DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          TEST_DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          TEST_DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          TEST_DB_PORT: ${{ secrets.PGPORT_TEST }}
