@@ -24,6 +24,7 @@ jobs:
       - name: Prepare Laravel Application
         run: |
           cp .ci.env .env.testing
+          cp .ci.env .env
           php artisan key:generate
       - name: Run Pint
         run: ./vendor/bin/pint
