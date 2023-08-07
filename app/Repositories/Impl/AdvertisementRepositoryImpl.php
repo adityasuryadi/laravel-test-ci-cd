@@ -41,7 +41,7 @@ class AdvertisementRepositoryImpl implements AdvertisementRepository
             $query->where('merchant_id', $merchantId);
         })
         ->where('is_active', 1)
-        ->select('id', 'name', 'source_url', 'duration')
+        ->select('id', 'name', 'source_url', 'duration', 'link')
         ->orderBy('last_display', 'ASC')
         ->first();
         return $ads;

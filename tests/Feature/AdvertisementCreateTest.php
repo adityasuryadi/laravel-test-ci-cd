@@ -19,12 +19,14 @@ class AdvertisementCreateTest extends TestCase
         $response->assertRedirect('login');
     }
 
-    public function test_user_can_not_access_create_advertisment_page_without_authenticated(){
+    public function test_user_can_not_access_create_advertisment_page_without_authenticated()
+    {
         $response = $this->get('/advertisement/create');
         $response->assertRedirect('login');
     }
 
-    public function test_authenticated_user_can_visit_create_advertisement():void{
+    public function test_authenticated_user_can_visit_create_advertisement(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
@@ -32,15 +34,16 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(200);
     }
 
-    public function test_create_advertisement_with_empty_name():void {
+    public function test_create_advertisement_with_empty_name(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
             'name'=>'',
             'duration'=>10,
             'link'=>'https://antrique.com',
-            'image'=>UploadedFile::fake()->image('avatar.png'),
+            'image'=>UploadedFile::fake()->image('avatar.jpeg', 200, 200),
             'merchants'=>[1,2]
         ]);
         $response
@@ -48,11 +51,12 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(302);
     }
 
-    public function test_create_advertisement_with_empty_duration():void {
+    public function test_create_advertisement_with_empty_duration(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
             'name'=>'iklan 1',
             'duration'=>null,
             'link'=>'https://antrique.com',
@@ -64,11 +68,46 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(302);
     }
 
-    public function test_create_advertisement_with_empty_link():void {
+    public function test_create_advertisement_with_duration_string_input(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
+            'name'=>'iklan 1',
+            'duration'=>'null',
+            'link'=>'https://antrique.com',
+            'image'=>UploadedFile::fake()->image('avatar.png'),
+            'merchants'=>[1,2]
+        ]);
+        $response
+        ->assertSessionHasErrors(['duration'=>'The duration must be a number.'])
+        ->assertStatus(302);
+    }
+
+    public function test_create_advertisement_with_duration_lower_than_one_input(): void
+    {
+        $user = User::factory()->create();
+        $response = $this
+        ->actingAs($user)
+        ->post('advertisement', [
+            'name'=>'iklan 1',
+            'duration'=>0,
+            'link'=>'https://antrique.com',
+            'image'=>UploadedFile::fake()->image('avatar.png'),
+            'merchants'=>[1,2]
+        ]);
+        $response
+        ->assertSessionHasErrors(['duration'=>'The duration must be at least 1.'])
+        ->assertStatus(302);
+    }
+
+    public function test_create_advertisement_with_empty_link(): void
+    {
+        $user = User::factory()->create();
+        $response = $this
+        ->actingAs($user)
+        ->post('advertisement', [
             'name'=>'iklan1',
             'duration'=>10,
             'link'=>'',
@@ -80,11 +119,12 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(302);
     }
 
-    public function test_create_advertisement_with_empty_image():void {
+    public function test_create_advertisement_with_empty_image(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
             'name'=>'iklan1',
             'duration'=>10,
             'link'=>'',
@@ -95,11 +135,12 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(302);
     }
 
-    public function test_create_advertisement_with_invalid_image_file():void {
+    public function test_create_advertisement_with_invalid_image_file(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
             'name'=>'iklan1',
             'duration'=>10,
             'link'=>'',
@@ -111,11 +152,12 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(302);
     }
 
-    public function test_create_advertisement_with_merchant_empty():void {
+    public function test_create_advertisement_with_merchant_empty(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
             'name'=>'iklan1',
             'duration'=>10,
             'link'=>'http://antrique.com',
@@ -127,11 +169,12 @@ class AdvertisementCreateTest extends TestCase
         ->assertStatus(302);
     }
 
-    public function test_create_advertisement_success():void {
+    public function test_create_advertisement_success(): void
+    {
         $user = User::factory()->create();
         $response = $this
         ->actingAs($user)
-        ->post('advertisement',[
+        ->post('advertisement', [
             'name'=>'iklan1',
             'duration'=>10,
             'link'=>'http://antrique.com',
