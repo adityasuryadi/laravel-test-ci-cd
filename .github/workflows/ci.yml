@@ -20,12 +20,15 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
       - name: Install dependencies
-        run: composer install -n --prefer-dist
+        run: |
+          composer install -n --prefer-dist
+          npm install
       - name: Prepare Laravel Application
         run: |
           cp .ci.env .env.testing
           cp .ci.env .env
           php artisan key:generate
+          npm run build
       - name: Run Pint
         run: ./vendor/bin/pint
       - name: Run migrate
