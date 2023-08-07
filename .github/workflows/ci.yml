@@ -21,9 +21,9 @@ jobs:
           coverage: none
       - name: Install dependencies
         run: composer install -n --prefer-dist
-      - name: Prepare Laravel Application
-        run: |
-          php artisan key:generate
+      # - name: Prepare Laravel Application
+      #   run: |
+      #     php artisan key:generate
       - name: Run Pint
         run: ./vendor/bin/pint
       - name: Run migrate and tests
