@@ -37,6 +37,11 @@ jobs:
           DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
           DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
           DB_PORT: ${{ secrets.PGPORT_TEST }}
+          TEST_DB_HOST: ${{ secrets.PGHOST_TEST }}
+          TEST_DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          TEST_DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          TEST_DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          TEST_DB_PORT: ${{ secrets.PGPORT_TEST }}
       - name: Run test
         run: php artisan test
         env:
@@ -46,3 +51,8 @@ jobs:
           DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
           DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
           DB_PORT: ${{ secrets.PGPORT_TEST }}
+          TEST_DB_HOST: ${{ secrets.PGHOST_TEST }}
+          TEST_DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          TEST_DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          TEST_DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          TEST_DB_PORT: ${{ secrets.PGPORT_TEST }}
