@@ -30,15 +30,3 @@ jobs:
             sudo docker exec ads-app bash -c "composer install"
             sudo docker exec ads-app bash -c "php artisan migrate"
             sudo docker exec ads-app bash -c "php artisan optimize"
-        env:
-          CI: true
-          PGHOST_TEST: ${{ secrets.PGHOST_TEST }}
-          PGUSER_TEST: ${{ secrets.PGUSER_TEST }}
-          PGDATABASE_TEST: ${{ secrets.PGDATABASE_TEST }}
-          PGPASSWORD_TEST: ${{ secrets.PGPASSWORD_TEST }}
-          PGPORT_TEST: ${{ secrets.PGPORT_TEST }}
-          PGHOST: ${{ secrets.PGHOST_TEST }}
-          PGUSER: ${{ secrets.PGUSER_TEST }}
-          PGDATABASE: ${{ secrets.PGDATABASE_TEST }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD_TEST }}
-          PGPORT: ${{ secrets.PGPORT_TEST }}
