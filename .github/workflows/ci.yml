@@ -29,6 +29,13 @@ jobs:
         run: ./vendor/bin/pint
       - name: Run migrate
         run: php artisan migrate
+        env:
+          CI: true
+          DB_HOST: ${{ secrets.PGHOST_TEST }}
+          DB_USERNAME: ${{ secrets.PGUSER_TEST }}
+          DB_DATABASE: ${{ secrets.PGDATABASE_TEST }}
+          DB_PASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          DB_PORT: ${{ secrets.PGPORT_TEST }}
       - name: Run test
         run: php artisan test
         env:
