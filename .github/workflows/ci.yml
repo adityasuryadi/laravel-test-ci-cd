@@ -27,8 +27,10 @@ jobs:
           php artisan key:generate
       - name: Run Pint
         run: ./vendor/bin/pint
-      - name: Run migrate and tests
+      - name: Run migrate
         run: php artisan migrate
+      - name: Run test
+        run: php artisan test
         env:
           CI: true
           DB_HOST: ${{ secrets.PGHOST_TEST }}
