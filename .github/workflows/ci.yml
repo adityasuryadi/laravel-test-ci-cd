@@ -29,3 +29,15 @@ jobs:
         run: ./vendor/bin/pint
       - name: Run tests
         run: php artisan test
+        env:
+          CI: true
+          PGHOST_TEST: ${{ secrets.PGHOST_TEST }}
+          PGUSER_TEST: ${{ secrets.PGUSER_TEST }}
+          PGDATABASE_TEST: ${{ secrets.PGDATABASE_TEST }}
+          PGPASSWORD_TEST: ${{ secrets.PGPASSWORD_TEST }}
+          PGPORT_TEST: ${{ secrets.PGPORT_TEST }}
+          PGHOST: ${{ secrets.PGHOST_TEST }}
+          PGUSER: ${{ secrets.PGUSER_TEST }}
+          PGDATABASE: ${{ secrets.PGDATABASE_TEST }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD_TEST }}
+          PGPORT: ${{ secrets.PGPORT_TEST }}
