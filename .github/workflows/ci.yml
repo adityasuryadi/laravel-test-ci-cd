@@ -23,7 +23,7 @@ jobs:
         run: composer install -n --prefer-dist
       - name: Prepare Laravel Application
         run: |
-          cp .ci.env .env
+          cp .ci.env .env.testing
           php artisan key:generate
       - name: Run Pint
         run: ./vendor/bin/pint
